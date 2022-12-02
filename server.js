@@ -18,6 +18,18 @@ db.getConnection(err => {
     }
 });
 
+app.post('/register', (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    db.execute(
+        "INSERT INTO users (username, password) VALUES (?, ?)",
+        [username, password],
+        (err, result) => {
+            console.log(err);
+        }
+    )
+});
+
 app.listen(3001, () => {
     console.log("running server");
 });
