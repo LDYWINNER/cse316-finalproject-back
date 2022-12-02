@@ -1,0 +1,8 @@
+CREATE DATABASE IF NOT EXISTS daylogger;
+
+USE daylogger;
+
+CREATE TABLE IF NOT EXISTS users(
+  username VARCHAR(50) NOT NULL UNIQUE PRIMARY KEY,
+  password VARCHAR(500),
+);
