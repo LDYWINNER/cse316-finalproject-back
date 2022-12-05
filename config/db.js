@@ -1,8 +1,17 @@
-import { Sequelize } from "sequelize";
+import mysql from "mysq2";
 
-const db = new Sequelize('daylogger', 'root', 'Dannie1102!*', {
-    host: "localhost",
-    dialect: "mysql"
+const db = mysql.createPool({
+    host: 'localhost',
+    user: 'root',
+    password: 'Dannie1102!*',
+    database: 'courseman',
+    socketPath: '/tmp/mysql.sock',
 });
 
-export default db;
+db.getConnection(err => {
+    if (err) {
+        console.log(err);
+    }
+});
+
+module.exports = db;
