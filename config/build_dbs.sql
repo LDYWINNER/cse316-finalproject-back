@@ -17,3 +17,11 @@ CREATE TABLE IF NOT EXISTS questions (
     multi varchar(500),
     text varchar(300)
 );
+
+CREATE TABLE IF NOT EXISTS daylog (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    month INT,
+    day INT,
+    year INT,
+    answers varchar(500)
+);
