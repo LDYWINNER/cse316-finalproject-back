@@ -108,6 +108,16 @@ app.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
+app.post('/update', (req, res) => {
+    const { newName, newEmail, newFirstAddress, newSecondAddress } = req.body;
+    db.query(`UPDATE users SET name=?, email=?, first_address=?, second_address=? WHERE id=?`,
+        [newName, newEmail, newFirstAddress, newSecondAddress, req.session.user[0].id],
+        (err, result) => {
+            console.log(err);
+        }
+    )
+})
+
 app.use(function (req, res, next) {
     res.status(404).send("Sorry cant find that!");
 });
