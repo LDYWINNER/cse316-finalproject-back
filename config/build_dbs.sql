@@ -11,3 +11,9 @@ CREATE TABLE IF NOT EXISTS users (
     second_address varchar(500)
 );
 
+CREATE TABLE IF NOT EXISTS questions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    box_type varchar(50), 
+    multi varchar(500),
+    text varchar(300)
+);

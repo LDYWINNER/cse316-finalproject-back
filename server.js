@@ -116,7 +116,33 @@ app.post('/update', (req, res) => {
             console.log(err);
         }
     )
-})
+});
+
+app.post('/editQuestions', (req, res) => {
+    const { boxList } = req.body;
+    db.query("DELETE FROM questions",
+        (err, result) => {
+            console.log(err);
+        }
+    );
+    for (let i = 0; i < boxList.length; i++) {
+        if (boxList[i].boxType === "multiple choice") {
+            db.query("INSERT INTO questions (box_type, multi, text) VALUES (?,?,?)",
+                [boxList[i].boxType, JSON.stringify(boxList[i].multi), boxList[i].text],
+                (err, result) => {
+                    console.log(err);
+                }
+            );
+        } else {
+            db.query("INSERT INTO questions (box_type, multi, text) VALUES (?,?,?)",
+                [boxList[i].boxType, [], boxList[i].text],
+                (err, result) => {
+                    console.log(err);
+                }
+            );
+        }
+    }
+});
 
 app.use(function (req, res, next) {
     res.status(404).send("Sorry cant find that!");
