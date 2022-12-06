@@ -110,16 +110,19 @@ app.get('/logout', (req, res) => {
 
 app.post('/update', (req, res) => {
     const { newName, newEmail, newFirstAddress, newSecondAddress } = req.body;
-    db.query(`UPDATE users SET name=?, email=?, first_address=?, second_address=? WHERE id=?`,
-        [newName, newEmail, newFirstAddress, newSecondAddress, req.session.user[0].id],
-        (err, result) => {
-            console.log(err);
-        }
-    )
+    if (req.session.user) {
+        db.query(`UPDATE users SET name=?, email=?, first_address=?, second_address=? WHERE id=?`,
+            [newName, newEmail, newFirstAddress, newSecondAddress, req.session.user[0].id],
+            (err, result) => {
+                console.log(err);
+            }
+        )
+    }
 });
 
 app.post('/editQuestions', (req, res) => {
     const { boxList } = req.body;
+    console.log(boxList);
     db.query("DELETE FROM questions",
         (err, result) => {
             console.log(err);
@@ -135,7 +138,7 @@ app.post('/editQuestions', (req, res) => {
             );
         } else {
             db.query("INSERT INTO questions (box_type, multi, text) VALUES (?,?,?)",
-                [boxList[i].boxType, [], boxList[i].text],
+                [boxList[i].boxType, "", boxList[i].text],
                 (err, result) => {
                     console.log(err);
                 }
