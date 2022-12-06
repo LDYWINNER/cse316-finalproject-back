@@ -60,8 +60,8 @@ app.post('/register', (req, res) => {
             console.log(err);
         }
         if (password === confPassword) {
-            db.query("INSERT INTO users (name, email, password) VALUES (?,?,?)",
-                [name, email, hash],
+            db.query("INSERT INTO users (name, email, password, first_address, second_address) VALUES (?,?,?,?,?)",
+                [name, email, hash, "", ""],
                 (err, result) => {
                     console.log(err);
                 }
