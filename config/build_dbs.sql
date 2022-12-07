@@ -6,7 +6,11 @@ CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY, 
     name varchar(100), 
     email varchar(100), 
-    password varchar(100), 
+    password varchar(100)
+);
+
+CREATE TABLE IF NOT EXISTS address (
+    id INT AUTO_INCREMENT PRIMARY KEY, 
     first_address varchar(500), 
     second_address varchar(500)
 );
