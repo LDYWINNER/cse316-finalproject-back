@@ -133,20 +133,28 @@ app.post('/update', (req, res) => {
     }
 });
 
-app.post('/editQuestions', (req, res) => {
+app.post('/editQuestions',
+(req, res, next) => {
+    db.query("DELETE FROM questions",
+    (err, result) => {
+        console.log(err);
+        console.log(1);
+        next();
+    }
+);
+},
+(req, res) => {
     const { boxList } = req.body;
     console.log(boxList);
-    db.query("DELETE FROM questions",
-        (err, result) => {
-            console.log(err);
-        }
-    );
+    
     for (let i = 0; i < boxList.length; i++) {
         if (boxList[i].boxType === "multiple choice") {
             db.query("INSERT INTO questions (box_type, multi, text) VALUES (?,?,?)",
                 [boxList[i].boxType, JSON.stringify(boxList[i].multi), boxList[i].text],
                 (err, result) => {
                     console.log(err);
+            console.log(2);
+
                 }
             );
         } else {
@@ -154,11 +162,22 @@ app.post('/editQuestions', (req, res) => {
                 [boxList[i].boxType, "", boxList[i].text],
                 (err, result) => {
                     console.log(err);
+            console.log(3);
+
                 }
             );
         }
     }
 });
+
+
+
+
+
+
+
+
+
 
 app.get('/questions', (req, res) => {
     db.query(`SELECT * FROM questions`, function (error, questionData) {
@@ -183,7 +202,7 @@ app.get('/answers', (req, res) => {
 })
 
 app.use(function (req, res, next) {
-    res.status(404).send("Sorry cant find that!");
+    res.status(404).send("Sorry can't find that!");
 });
 
 app.use(function (err, req, res, next) {
