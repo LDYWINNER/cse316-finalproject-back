@@ -160,6 +160,28 @@ app.post('/editQuestions', (req, res) => {
     }
 });
 
+app.get('/questions', (req, res) => {
+    db.query(`SELECT * FROM question`, function (error, questionData) {
+        res.send(questionData);
+    });
+})
+
+app.post('/answers', (req, res) => {
+    const { month, day, year, answers } = req.body;
+    db.query(`INSERT INTO users (month, day, year, answers) VALUES (?,?,?,?)`,
+        [month, day, year, answers],
+        (err, result) => {
+            console.log(err);
+        }
+    );
+});
+
+app.get('/answers', (req, res) => {
+    db.query(`SELECT * FROM answers`, function (error, answersData) {
+        res.send(answersData);
+    });
+})
+
 app.use(function (req, res, next) {
     res.status(404).send("Sorry cant find that!");
 });
