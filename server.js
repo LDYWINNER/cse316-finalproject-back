@@ -38,7 +38,7 @@ app.use(session({
 const db = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: 'Dannie1102!*',
+    password: 'rlaalstn12!',
     database: 'daylogger',
     socketPath: '/tmp/mysql.sock',
 });
@@ -161,14 +161,14 @@ app.post('/editQuestions', (req, res) => {
 });
 
 app.get('/questions', (req, res) => {
-    db.query(`SELECT * FROM question`, function (error, questionData) {
+    db.query(`SELECT * FROM questions`, function (error, questionData) {
         res.send(questionData);
     });
 })
 
 app.post('/answers', (req, res) => {
     const { month, day, year, answers } = req.body;
-    db.query(`INSERT INTO users (month, day, year, answers) VALUES (?,?,?,?)`,
+    db.query(`INSERT INTO daylog (month, day, year, answers) VALUES (?,?,?,?)`,
         [month, day, year, answers],
         (err, result) => {
             console.log(err);
@@ -177,7 +177,7 @@ app.post('/answers', (req, res) => {
 });
 
 app.get('/answers', (req, res) => {
-    db.query(`SELECT * FROM answers`, function (error, answersData) {
+    db.query(`SELECT * FROM daylog`, function (error, answersData) {
         res.send(answersData);
     });
 })
