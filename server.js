@@ -60,8 +60,15 @@ app.post('/register', (req, res) => {
             console.log(err);
         }
         if (password === confPassword) {
-            db.query("INSERT INTO users (name, email, password, first_address, second_address) VALUES (?,?,?,?,?)",
-                [name, email, hash, "", ""],
+            db.query("INSERT INTO users (name, email, password) VALUES (?,?,?)",
+                [name, email, hash],
+                (err, result) => {
+                    console.log(err);
+                }
+            );
+
+            db.query("INSERT INTO address (first_address, second_address) VALUES (?,?)",
+                ["", ""],
                 (err, result) => {
                     console.log(err);
                 }
@@ -111,12 +118,18 @@ app.get('/logout', (req, res) => {
 app.post('/update', (req, res) => {
     const { newName, newEmail, newFirstAddress, newSecondAddress } = req.body;
     if (req.session.user) {
-        db.query(`UPDATE users SET name=?, email=?, first_address=?, second_address=? WHERE id=?`,
-            [newName, newEmail, newFirstAddress, newSecondAddress, req.session.user[0].id],
+        db.query(`UPDATE users SET name=?, email=? WHERE id=?`,
+            [newName, newEmail, req.session.user[0].id],
             (err, result) => {
                 console.log(err);
             }
-        )
+        );
+        db.query(`UPDATE address SET first_address=?, second_address=? WHERE id=?`,
+            [newFirstAddress, newSecondAddress, req.session.user[0].id],
+            (err, result) => {
+                console.log(err);
+            }
+        );
     }
 });
 
